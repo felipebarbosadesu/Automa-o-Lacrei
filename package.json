@@ -1,0 +1,12 @@
+{
+  "name": "lacrei-qa",
+  "version": "1.0.0",
+  "description": "Testes automatizados E2E com Cypress - Lacrei Saúde",
+  "scripts": {
+    "test": "cypress run",
+    "open": "cypress open"
+  },
+  "devDependencies": {
+    "cypress": "^13.0.0"
+  }
+}
