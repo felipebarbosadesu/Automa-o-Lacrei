@@ -1,90 +1,103 @@
-🧪 Projeto de Automação de Testes - Lacrei Saúde
+# 🧪 Projeto de Automação de Testes - Lacrei Saúde
 
-Este repositório é dedicado à automação de testes End-to-End (E2E) para a plataforma Lacrei Saúde, focando em garantir a qualidade e a estabilidade dos principais fluxos da aplicação de pacientes no ambiente de staging.
+Este repositório é dedicado à **automação de testes End-to-End (E2E)** para a plataforma **Lacrei Saúde**, com foco em garantir a **qualidade** e **estabilidade** dos principais fluxos da aplicação de pacientes no ambiente de **staging**.
 
-O projeto utiliza Cypress, um framework moderno de testes em JavaScript, para criar testes rápidos, confiáveis e fáceis de depurar.
+O projeto utiliza **Cypress**, um framework moderno de testes em JavaScript, para criar testes **rápidos, confiáveis e fáceis de depurar**.
 
-📋 Fluxos de Teste Cobertos
 
-Atualmente, os seguintes cenários estão automatizados, correspondendo aos arquivos na pasta cypress/e2e/:
+## 📋 Fluxos de Teste Cobertos
 
-Cadastro (cadastro.cy.js): Validação do fluxo de criação de uma nova conta de paciente.
+Atualmente, os seguintes cenários estão automatizados (localizados em `cypress/e2e/`):
 
-Login (login.cy.js): Teste de autenticação na plataforma com credenciais válidas.
+- **Cadastro (`cadastro.cy.js`)** → Validação do fluxo de criação de uma nova conta de paciente.
+- **Cadastro já existente (`cadastrojaexistente.cy`)** → Validação da tentativa de cadastro com um e-mail já existente.   
+- **Login (`login.cy.js`)** → Teste de autenticação na plataforma com credenciais válidas.  
+- **Redefinição de Senha (`senha.cy.js`)** → Validação do fluxo de recuperação e redefinição de senha.
 
-Busca de Profissionais (busca_profissional.cy.js): Simulação de buscas e validação da página de resultados.
 
-Perfil do Usuário (perfil.cy.js): Verificação do carregamento correto da página de perfil após o login.
+## 🚀 Como Configurar o Ambiente
 
-Redefinição de Senha (senha.cy.js): Validação do fluxo de recuperação e redefinição de senha.
+### **Pré-requisitos**
+- [Node.js](https://nodejs.org/) (versão 16 ou superior)  
+- [Git](https://git-scm.com/)
 
-🚀 Como Configurar o Ambiente
+### **Instalação**
 
-Para executar os testes localmente, siga os passos abaixo.
-
-Pré-requisitos:
-
-Node.js (versão 16 ou superior)
-
-Git
-
-Instalação:
-
+```bash
 # 1. Clone o repositório
-git clone [https://github.com/felipebarbosadesu/lacrei-repo-qa.git](https://github.com/felipebarbosadesu/lacrei-repo-qa.git)
+git clone https://github.com/felipebarbosadesu/Automa-o-Lacrei.git
 
 # 2. Navegue até a pasta do projeto
-cd lacrei-repo-qa
+cd Automa-o-Lacrei
 
 # 3. Instale as dependências
 npm install
+````
 
 
-▶️ Como Executar os Testes
+## ▶️ Como Executar os Testes
 
 Você pode executar os testes de duas formas:
 
-1. Modo Interativo (Recomendado para desenvolver/depurar)
-Abre a interface do Cypress, permitindo que você veja o teste rodando em tempo real, interaja com os elementos e depure falhas.
+### **1. Modo Interativo**
 
+Recomendado para desenvolvimento e depuração.
+Abre a interface visual do Cypress, permitindo acompanhar a execução em tempo real.
+
+```bash
 npx cypress open
+```
 
+### **2. Modo Headless**
 
-2. Modo Headless (Recomendado para CI/CD e execuções completas)
-Executa todos os testes em segundo plano, sem abrir o navegador. É mais rápido e ideal para validações completas.
+Recomendado para pipelines de CI/CD.
+Executa os testes em segundo plano, sem abrir o navegador.
 
+```bash
 npx cypress run
+```
 
 
-☁️ Relatórios e Cypress Cloud
+## ☁️ Relatórios e Cypress Cloud
 
-Este projeto está configurado para enviar os resultados das execuções para o Cypress Cloud. Isso permite visualizar:
+Este projeto está configurado para enviar os resultados das execuções para o **Cypress Cloud**, permitindo visualizar:
 
-Vídeos da execução de cada teste.
+* 🎥 Vídeos da execução de cada teste
+* 📸 Screenshots automáticos em caso de falha
+* 📊 Histórico e análise de performance
 
-Screenshots detalhados de cada falha.
+Para enviar os resultados, utilize sua **record key**:
 
-Histórico e análise de performance dos testes.
-
-Para enviar os resultados, execute o comando de run com a sua record key:
-
+```bash
 npx cypress run --record --key SUA_CHAVE_AQUI
+```
 
 
-📂 Estrutura do Projeto
+## 📂 Estrutura do Projeto
 
+```
 /
 ├── cypress/
-│   ├── e2e/               # Contém os arquivos de teste (.cy.js)
-│   ├── fixtures/          # Dados mockados (ex: usuários para testes)
-│   └── support/           # Arquivos de configuração e comandos customizados
-│       ├── commands.js    # Onde criamos comandos como cy.login()
-│       └── e2e.js         # Configurações globais para os testes
+│   ├── e2e/               # Arquivos de teste (.cy.js)
+│   ├── fixtures/          # Dados mockados (ex: usuários de teste)
+│   └── support/           # Comandos e configurações globais
+│       ├── commands.js    # Comandos customizados (ex: cy.login())
+│       └── e2e.js         # Configurações globais
 │
-├── cypress.config.js      # Arquivo principal de configuração do Cypress
+├── cypress.config.js      # Configuração principal do Cypress
 └── package.json           # Dependências e scripts do projeto
+```
 
 
-🌐 Ambiente:
+## 🌐 Ambiente de Teste
 
-Staging: https://paciente-staging.lacrei-saude.com.br/
+**Staging:**
+🔗 [https://paciente-staging.lacreisaude.com.br/](https://paciente-staging.lacreisaude.com.br/)
+
+
+## 👨‍💻 Autor
+
+**Felipe Vieira Barbosa** Software Quality Assurance [LinkedIn](https://www.linkedin.com/in/felipebarbosalds/?locale=pt_BR)
+
+
+```
