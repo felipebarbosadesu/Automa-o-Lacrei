@@ -1,19 +1,17 @@
-describe('Cadastro Dinâmico - STG', () => {
+describe('Página de Cadastro - Conta Existente', () => {
   beforeEach(() => {
+    // Visita a página de cadastro
     cy.visit('https://paciente-staging.lacreisaude.com.br/cadastro/');
   });
 
-  it('Deve criar um novo usuário com email único', () => {
-    const timestamp = Date.now(); // gera número único
-    const email = `teste${timestamp}@gmail.com`; // email único
-
+  it('Deve exibir erro ao tentar cadastrar com email já existente', () => {
     // Preenche campos de nome e sobrenome
     cy.get('#first_name').type('Felipe', { force: true });
     cy.get('#last_name').type('Vieira Barbosa', { force: true });
 
-    // Preenche email dinâmico
-    cy.get('#email').type(email, { force: true });
-    cy.get('#email2').type(email, { force: true });
+    // Usa um email já cadastrado
+    cy.get('#email').type('felipebarbosasud@gmail.com', { force: true });
+    cy.get('#email2').type('felipebarbosasud@gmail.com', { force: true });
 
     // Preenche senha e confirmação
     cy.get('#password1').type('Kobemission1@', { force: true });
@@ -26,8 +24,8 @@ describe('Cadastro Dinâmico - STG', () => {
     // Clica em "Cadastrar"
     cy.contains('span', 'Cadastrar').click({ force: true });
 
-    // Valida sucesso: redirecionamento ou mensagem
-    cy.url({ timeout: 10000 }).should('not.include', '/cadastro');
-    cy.contains('Bem-vindo', { timeout: 10000 }).should('be.visible');
+    // Valida que mensagem de erro é exibida
+    cy.contains('Este e-mail já está cadastrado', { timeout: 10000 })
+      .should('be.visible');
   });
 });

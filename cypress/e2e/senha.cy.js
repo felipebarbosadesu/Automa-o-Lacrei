@@ -1,24 +1,53 @@
-describe('Redefinir Senha', () => {
+describe('Página de Redefinição de Senha - STG', () => {
+
   beforeEach(() => {
-    cy.visit('https://paciente-staging.lacreisaude.com.br/saude/paciente/redefinir-senha/')
-  })
-  it('Deve exibir mensagem de sucesso ao redefinir senha com email válido', () => {
-    // Usa um e-mail que se espera estar cadastrado no ambiente de staging
-    cy.get('#email').type(Cypress.env('USER_EMAIL'));
+    // Visita a página de redefinição de senha antes de cada teste
+    cy.visit('https://paciente-staging.lacreisaude.com.br/saude/paciente/redefinir-senha/');
+  });
 
-    // O botão deve ficar habilitado após digitar um email válido
-    cy.contains('button', 'Redefinir senha').should('not.be.disabled');
-    cy.contains('button', 'Redefinir senha').click();
+  it('Deve exibir corretamente todos os elementos visuais da página', () => {
+    // Verifica a URL
+    cy.url().should('include', '/redefinir-senha');
 
-    // Valida a mensagem de sucesso
-    cy.contains('Enviamos um e-mail para você com as instruções de recuperação.', { timeout: 10000 }).should('be.visible');
+    // Verifica os textos principais
+    cy.contains('h4', 'Redefinir senha').should('be.visible');
+    cy.contains('Vamos enviar um link em seu e-mail para redefinir a sua senha.').should('be.visible');
+
+    // Verifica o campo de email e seu placeholder
+    cy.get('#email').should('be.visible').and('have.attr', 'placeholder', 'Digite seu e-mail');
+
+    // Verifica os botões
+    cy.contains('button', 'Enviar link').should('be.visible');
+    cy.contains('button', 'Voltar').should('be.visible');
+  });
+
+  it('Deve habilitar o botão "Enviar link" apenas ao digitar um e-mail válido', () => {
+    // Botão "Enviar link" deve iniciar desabilitado
+    cy.contains('button', 'Enviar link').should('be.disabled');
+
+    // Digita um texto inválido
+    cy.get('#email').type('emailinvalido');
+    cy.contains('button', 'Enviar link').should('be.disabled');
+
+    // Limpa o campo e digita um email válido
+    cy.get('#email').clear().type('felipebarbosasud@gmail.com');
+    cy.contains('button', 'Enviar link').should('be.enabled');
   });
   
-  it('Deve exibir erro ao tentar redefinir senha com email inválido', () => {
-    // CORREÇÃO: Digita no campo de email ANTES de tentar clicar no botão
-    cy.get('#email').type('email-invalido');
+  it('Deve navegar para a tela de verificação e exibir os elementos corretos', () => {
+    // Digita um email válido
+    cy.get('#email').type('felipebarbosasud@gmail.com');
 
-    // Valida que o botão permanece desabilitado com email inválido
-    cy.contains('button', 'Redefinir senha').should('be.disabled');
+    // Clica no botão para enviar o link
+    cy.contains('button', 'Enviar link').click();
+
+    // Verifica se a URL mudou para a tela de verificação
+    cy.url().should('include', '/redefinir-senha/verificar');
+
+    // Verifica os textos e elementos da tela de verificação
+    cy.contains('h3', 'Verifique seu e-mail para redefinir a senha').should('be.visible');
+    cy.contains('Caso o e-mail fornecido exista, será enviada um link para redefinição de senha.').should('be.visible');
+    cy.contains('a', 'Reenviar').should('be.visible');
+    cy.contains('button', 'Voltar para a tela inicial').should('be.visible');
   });
 });
