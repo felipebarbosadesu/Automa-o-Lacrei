@@ -92,7 +92,7 @@ npx cypress run --record --key SUA_CHAVE_AQUI
 ## 🌐 Ambiente de Teste
 
 **Staging:**
-🔗 [https://paciente-staging.lacreisaude.com.br/](https://paciente-staging.lacreisaude.com.br/)
+[https://paciente-staging.lacreisaude.com.br/](https://paciente-staging.lacreisaude.com.br/)
 
 
 ## 👨‍💻 Autor
