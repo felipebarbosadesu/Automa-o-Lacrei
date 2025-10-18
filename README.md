@@ -97,7 +97,4 @@ npx cypress run --record --key SUA_CHAVE_AQUI
 
 ## 👨‍💻 Autor
 
-**Felipe Vieira Barbosa** Software Quality Assurance [LinkedIn](https://www.linkedin.com/in/felipebarbosalds/?locale=pt_BR)
-
-
-```
+**Felipe Vieira Barbosa** | Software Quality Assurance | [LinkedIn](https://www.linkedin.com/in/felipebarbosalds/?locale=pt_BR)
