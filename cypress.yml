@@ -1,0 +1,66 @@
+name: E2E Tests - Lacrei Saúde
+
+# Gatilhos: Roda em push e pull request para as branches principais
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+      
+# Ações que serão executadas
+jobs:
+  cypress-run:
+    # O ambiente de execução
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Etapa 1: Faz o checkout do código do repositório
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      # Etapa 2: Configuração do Node.js (versão 20 recomendada)
+      - name: Configuração do Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Etapa 3: Instalação das dependências do projeto
+      # O Cypress Action pode instalar as dependências, mas é boa prática garantir a instalação aqui.
+      - name: Instalação das dependências (npm install)
+        run: npm install
+
+      # Etapa 4: Execução dos testes Cypress e Gravação no Cypress Cloud
+      - name: Execução dos testes e Gravação no Cypress Cloud
+        # Utiliza a ação oficial do Cypress
+        uses: cypress-io/github-action@v6
+        with:
+          # Define o navegador para execução
+          browser: chrome 
+          # Ativa a gravação no Cypress Cloud, conforme seu README
+          record: true
+          # O modo headless é o padrão no CI, mas é bom ser explícito
+          headless: true 
+
+        env:
+          # Variável de ambiente crucial: A CHAVE SECRETA DE GRAVAÇÃO. 
+          # Você DEVE configurar esta chave como um Secret no GitHub (CYPRESS_RECORD_KEY).
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          
+          # GITHUB_TOKEN é usado para linkar o job no Cypress Cloud
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Etapa 5 (Opcional): Upload de Artefatos (vídeos e screenshots)
+      # Mesmo gravando no Cloud, é útil ter os artefatos diretamente no GitHub
+      - uses: actions/upload-artifact@v4
+        if: always() # Garante que esta etapa rode mesmo se os testes falharem
+        with:
+          name: cypress-artifacts
+          path: |
+            cypress/videos
+            cypress/screenshots
+          retention-days: 3 # Tempo que os artefatos ficarão armazenados no GitHub
+
