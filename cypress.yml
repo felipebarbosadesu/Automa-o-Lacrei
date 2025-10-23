@@ -17,6 +17,17 @@ jobs:
     # O ambiente de execução
     runs-on: ubuntu-latest
     
+    # --- Adiciona a Estratégia de Paralelização (Parallelization Strategy) ---
+    strategy:
+      # Define que o job não deve falhar imediatamente se um container falhar,
+      # permitindo que todos os jobs do matrix sejam concluídos.
+      fail-fast: false
+      matrix:
+        # Define a matriz para rodar 2 instâncias (containers) em paralelo.
+        # Você pode aumentar esse número se tiver muitos testes.
+        containers: [1, 2] 
+    # --------------------------------------------------------------------------
+
     steps:
       # Etapa 1: Faz o checkout do código do repositório
       - name: Checkout do Código
@@ -44,11 +55,13 @@ jobs:
           record: true
           # O modo headless é o padrão no CI, mas é bom ser explícito
           headless: true 
+          # Habilita a paralelização para dividir a carga de testes entre os containers
+          parallel: true 
 
         env:
           # Variável de ambiente crucial: A CHAVE SECRETA DE GRAVAÇÃO. 
           # Você DEVE configurar esta chave como um Secret no GitHub (CYPRESS_RECORD_KEY).
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_RECORD_KEY: ${{ secrets.1960a4d6-a20f-40ed-954e-f0cbf1cdc54d }}
           
           # GITHUB_TOKEN é usado para linkar o job no Cypress Cloud
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -63,4 +76,3 @@ jobs:
             cypress/videos
             cypress/screenshots
           retention-days: 3 # Tempo que os artefatos ficarão armazenados no GitHub
-
